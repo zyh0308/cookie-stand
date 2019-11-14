@@ -93,5 +93,5 @@ function getDataForTotal(seattle, tokyo, paris, dubai,lima){
   addElement('td',footerElement,seattle.totalDailySold+tokyo.totalDailySold+paris.totalDailySold+dubai.totalDailySold+lima.totalDailySold);
 }
 
-getDataForTotal(seattleLocation, tokyoLocation,parisLocation,dubaiLocation,limaLocation);
+getDataForTotal(seattleLocation,tokyoLocation,parisLocation,dubaiLocation,limaLocation);
 
