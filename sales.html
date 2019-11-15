@@ -1,18 +1,42 @@
 <!DOCTYPE html>
 <html>
     <head>
-       <title>cookie-stand</title> 
+      <title>Cookie-Stand</title>
     </head>
-    <body>
-        <header>
-            <h1>Salmon Cookies</h1>
-            <link rel ="stylesheet" href="/css/style.css"/>
-        </header>
-        <main>
-            <h2></h2>
+   <body>
+    <header>
+        <h1>Salmon Cookies</h1>
+        <img src="img/chinook.jpg"/>
+        <link rel="stylesheet" href="/css/style.css" />
+    </header>
+    <form id="cookie-form">
+        <fieldset>
+            <legend>Store Information</legend>
+            <label>
+                Store Name
+                <input name="storeName" type="text" />
+            </label>
+            <label>
+                Min Customer Number
+                <input name="mincustomer" type="number" />
+            </label>
+            <label>
+                Max Customer Number
+                <input name="maxcustomer" type="number" />
+            </label>
+            <label>
+                Average Cookie Per Customer Purchased
+                <input name="average" type="number" />
+            </label>
 
-            <div id= 'tableContainer'>
-            <!-- <article>
+            <button>Submit</button>
+
+        </fieldset>
+    
+    </form>
+
+    <table id='tableContainer'>
+        <!-- <article>
              <table>
              <th></th>
              <tr></tr>
@@ -20,9 +44,10 @@
              </table>
         
           </article> -->
-            </div>
+        </table>
     <script src="js/app.js"></script>
-    
+
     </main>
-    </body>
+</body>
+
 </html>
