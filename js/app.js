@@ -1,6 +1,7 @@
 'use strict';
 //global hours
 var hours = ['6am','7am','8am','9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm']
+
 //create global addElement function 
 
 function addElement(tag, container, text) {
@@ -22,7 +23,6 @@ function Store(name, mincust,maxcust,avgCookiesPerCustomer){
   this.calculateCookiePerHourPerStore();
 }
 
-
 //Creating function for Cookie sold per hour per store and total cookie sold per store 
 Store.prototype.calculateCookiePerHourPerStore = function(){
   for (var i=0;i<hours.length;i++){
@@ -34,17 +34,20 @@ Store.prototype.calculateCookiePerHourPerStore = function(){
   }
 };
 
-var seattleLocation = new Store('Seattle', 23, 65, 6.3);
-var tokyoLocation = new Store('Tokyo', 3, 24, 1.2);
-var dubaiLocation = new Store('Dubai', 11,38,3.7);
-var parisLocation = new Store('Paris', 20, 38, 2.3);
-var limaLocation = new Store('Lima', 2,16,4.6);
+var locations=[];
 
-console.log('seattleLocation :', seattleLocation);
-console.log('tokyoLocation :', tokyoLocation);
-console.log('parisLocation :', parisLocation);
-console.log('dubaiLocation :', dubaiLocation);
-console.log('limaLocation :', limaLocation);
+locations.push(new Store('Seattle', 23, 65, 6.3));
+locations.push(new Store('Tokyo', 3, 24, 1.2));
+locations.push(new Store('Dubai', 11,38,3.7));
+locations.push(new Store('Paris', 20, 38, 2.3));
+locations.push(new Store('Lima', 2,16,4.6));
+
+
+// console.log('seattleLocation :', seattleLocation);
+// console.log('tokyoLocation :', tokyoLocation);
+// console.log('parisLocation :', parisLocation);
+// console.log('dubaiLocation :', dubaiLocation);
+// console.log('limaLocation :', limaLocation);
 
 //create Table 
 
@@ -69,29 +72,62 @@ function getDataForEachRow(city){
     addElement('td',dataRowElement,city.cookiePerHourPerStore[i]);
   } 
   addElement('td',dataRowElement,city.totalDailySold);
-  }
-
-// var dataRowElement = addElement('tr', tableElement);
-// addElement('td',dataRowElement, seattleLocation.name);
-// for (var j = 0; j < hours.length; j++) {
-//   addElement('td',dataRowElement,seattleLocation.cookiePerHourPerStore[j]);
-// } 
-// addElement('td',dataRowElement,seattleLocation.totalDailySold);
-getDataForEachRow(seattleLocation);
-getDataForEachRow(tokyoLocation);
-getDataForEachRow(parisLocation);
-getDataForEachRow(dubaiLocation);
-getDataForEachRow(limaLocation);
-
-//create footer for table
-function getDataForTotal(seattle, tokyo, paris, dubai,lima){
-  var footerElement = addElement('tr',tableElement);
-  addElement('td',footerElement,'Totals');
-  for(var k=0; k<hours.length; k++){
-    addElement('td',footerElement, seattle.cookiePerHourPerStore[k] + tokyo.cookiePerHourPerStore[k]+ paris.cookiePerHourPerStore[k]+dubai.cookiePerHourPerStore[k]+lima.cookiePerHourPerStore[k])
-  } 
-  addElement('td',footerElement,seattle.totalDailySold+tokyo.totalDailySold+paris.totalDailySold+dubai.totalDailySold+lima.totalDailySold);
 }
 
-getDataForTotal(seattleLocation,tokyoLocation,parisLocation,dubaiLocation,limaLocation);
+for(var i=0; i<locations.length;i++){
+  getDataForEachRow(locations[i]);
+}
 
+//create footer for table
+var megatotal = 0;
+var dataRowElement = addElement('tr',tableElement);
+console.log('store1', locations[0].cookiePerHourPerStore)
+console.log('store2', locations[1].cookiePerHourPerStore)
+console.log('store3', locations[2].cookiePerHourPerStore)
+var dataRowElement = addElement('tr',tableElement);
+  addElement('td',dataRowElement,'Totals');
+for(var i =0;i< hours.length;i++){
+  var timeSlotTotal = 0;
+  
+  for (var j=0; j<locations.length;j++);{
+  var currentStore = locations[j];
+  timeSlotTotal += currentStore.cookiePerHourPerStore[i];
+  addElement('td',dataRowElement,timeSlotTotal);
+  }  
+
+}
+
+// //creat variable for form
+// var form = document.getElementById('cookie-form');
+// Store.prototype.render = function(){
+// var tbody = document.getElementById('cookie-entries');
+// var tableRow = addElement('tr',tbody);
+// var storeNameTableBody = addElement('td',tableRow);
+// var 
+
+
+var form = document.getElementById('cookie-form');
+
+function submitHandler(event){
+  event.preventDefault();
+
+  var name = event.target.storeName.value;
+  var storeMincust = event.target.mincustomer.value;
+  var storeMaxcust = event.target.maxcustomer.value;
+  var avgCookie = event. target.average.value;
+
+  console.log('name :',name);
+  console.log('storeMincust:',storeMincust);
+  console.log('storeMaxcust:',storeMaxcust);
+  console.log('avgCookie:',avgCookie);
+
+
+  var cookieStore = new Store(name, storeMincust, storeMaxcust, avgCookie);
+  getDataForEachRow(cookieStore);
+
+  event.target.reset();
+
+  console.log('cookieStore:', cookieStore);
+
+}
+form.addEventListener('submit', submitHandler);

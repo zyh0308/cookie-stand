@@ -9,6 +9,11 @@ header{
 
 }
 
+h1{
+    Color: darkblue;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
 .center {
     display: block;
     margin-left: auto;
