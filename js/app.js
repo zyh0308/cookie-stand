@@ -56,7 +56,7 @@ var tableContainer = document.getElementById('tableContainer');
 var tableElement = addElement ('table',tableContainer);
 var headerRowElement = addElement ('tr', tableElement);
 
-// HOUR ROW
+// Header row
 addElement('th', headerRowElement, ' ');
 for (var i=0 ;i<hours.length;i++){
   addElement('th', headerRowElement, hours[i]);
@@ -74,60 +74,52 @@ function getDataForEachRow(city){
   addElement('td',dataRowElement,city.totalDailySold);
 }
 
+//calling function above
+
 for(var i=0; i<locations.length;i++){
   getDataForEachRow(locations[i]);
 }
 
-//create footer for table
-var megatotal = 0;
-var dataRowElement = addElement('tr',tableElement);
-console.log('store1', locations[0].cookiePerHourPerStore)
-console.log('store2', locations[1].cookiePerHourPerStore)
-console.log('store3', locations[2].cookiePerHourPerStore)
-var dataRowElement = addElement('tr',tableElement);
-  addElement('td',dataRowElement,'Totals');
-for(var i =0;i< hours.length;i++){
-  var timeSlotTotal = 0;
-  
-  for (var j=0; j<locations.length;j++);{
-  var currentStore = locations[j];
-  timeSlotTotal += currentStore.cookiePerHourPerStore[i];
-  addElement('td',dataRowElement,timeSlotTotal);
-  }  
 
+//create function for Total Sales for each store 
+function calculateAllStoreTotalSalesPerHour(){
+  var footerRowElement = addElement('tr',tableElement);
+  addElement('td',footerRowElement,'Totals');
+  var megaTotal = 0; 
+for (var i = 0; i < hours.length;i++){
+  var hourSumTotal = 0;
+  
+for (var j = 0; j<locations.length; j++){
+  hourSumTotal += locations[j].cookiePerHourPerStore[i];
+  // hourlyTotalSales.push(ourSumTotal);
+}
+megaTotal += hourSumTotal;
+addElement('td',footerRowElement,hourSumTotal);
+}
+addElement('td',footerRowElement,megaTotal)
 }
 
-// //creat variable for form
-// var form = document.getElementById('cookie-form');
-// Store.prototype.render = function(){
-// var tbody = document.getElementById('cookie-entries');
-// var tableRow = addElement('tr',tbody);
-// var storeNameTableBody = addElement('td',tableRow);
-// var 
 
-
-var form = document.getElementById('cookie-form');
+function deleteTotalRow() {
+  tableElement.deleteRow(-1);
+}
 
 function submitHandler(event){
   event.preventDefault();
-
   var name = event.target.storeName.value;
   var storeMincust = event.target.mincustomer.value;
   var storeMaxcust = event.target.maxcustomer.value;
   var avgCookie = event. target.average.value;
-
-  console.log('name :',name);
-  console.log('storeMincust:',storeMincust);
-  console.log('storeMaxcust:',storeMaxcust);
-  console.log('avgCookie:',avgCookie);
-
-
   var cookieStore = new Store(name, storeMincust, storeMaxcust, avgCookie);
+
+  deleteTotalRow();
   getDataForEachRow(cookieStore);
-
+  calculateAllStoreTotalSalesPerHour()
   event.target.reset();
-
-  console.log('cookieStore:', cookieStore);
-
 }
+
+var form = document.getElementById('cookie-form');
 form.addEventListener('submit', submitHandler);
+
+
+calculateAllStoreTotalSalesPerHour();
